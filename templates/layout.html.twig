@@ -6,23 +6,33 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{% block title %}Titre par défaut{% endblock %}</title>
+    <link rel="icon" href="{{ asset('images/icon.png') }}">
+    <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
 
-<header>
-    {% include 'inc/nav.html.twig' %}
-</header>
+<div class="container">
+    
+    <header>
+        <img src="{{ asset('images/logo.svg') }}" alt="Series">
+        {% include 'inc/nav.html.twig' %}
+    </header>
 
-{% block body %}{% endblock %}
+    <main>
+        {% block body %}{% endblock %}
+    </main>
 
-<footer>
-    <div class="container">
-        <section>
-            <h3>Navigation</h3>
-            {% include 'inc/nav.html.twig' %}
-        </section>
-    </div>
-</footer>
+    <footer>
+        <div class="container">
+            <section>
+                <h3>Navigation</h3>
+                {% include 'inc/nav.html.twig' %}
+            </section>
+        </div>
+    </footer>
+
+</div>
 
 </body>
 </html>
