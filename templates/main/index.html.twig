@@ -1,0 +1,80 @@
+{% extends 'layout.html.twig' %}
+{% block title %}Hello MainController!{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="home.css">
+{% endblock %}
+{% block body %}
+
+
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+
+
+<div class="example-wrapper">
+    ///   BOUCLE, IF, CITY   ///✅
+
+    <p>Ville :  {{ city }}</p>
+
+    {% if  city == 'Ougadougou' %}
+        <p>La capitale du Burkina Faso</p>
+    {% else %}
+        <p>C/'est pas la meilleur ville du monde</p>
+    {% endif %}
+
+    {% for vegetable in vegetables %}
+        <p>{{ vegetable }}
+        {% if loop.first %}
+            (Mon préféré)
+        {% endif %}
+        </p>
+    {% else %}
+        <p>Pas de légumes</p>
+    {% endfor %}
+
+
+    <br>
+    ///   RECUP DONNEES  OBJET   ///✅
+
+    {%
+        set book = {
+        'title': 'ENI Symfony',
+        'year': 2022,
+        'prix' : 19.99
+    }
+    %}
+
+    <p>{{ book.title }} / {{ book.year }}</p>
+
+    {% for key, val in book %}
+        {# <p>{{ key ~ ' : ' ~ val }}</p> #}
+        <p>{{ key }} :
+            {% if key == 'prix' %}
+                {{ val|format_currency('EUR', locale='fr') }}
+            {% else %}
+                {{ val }}
+            {% endif %}
+        </p>
+    {% endfor %}
+
+
+
+    <br>
+    ///   FILTRES   /// ✅
+    <p>Ville : {{ city|upper }}</p>
+    <p>Ville : {{ city|capitalize }}</p>
+
+    <p>J'ai acheté {{ vegetables|length }} légumes.</p>
+    <p>Légumes : {{  vegetables|join(', ', ' et des ') }}</p>
+
+    <p>Aujourdh'ui : {{ 'now'|date('d/m/Y') }}</p>
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code><a href="{{ 'E:/wamp64/www/series/src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
+        <li>Your template at <code><a href="{{ 'E:/wamp64/www/series/templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
+    </ul>
+</div>
+{% endblock %}
