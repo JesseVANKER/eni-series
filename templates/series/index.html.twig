@@ -1,0 +1,23 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}
+    Liste des séries
+{% endblock %}
+{% block body %}
+
+    <h1>Liste des séries</h1>
+
+    <a href="{{ path('series_new') }}">Ajouter une série</a>
+
+    {{ dump(series) }}
+    {% if series|length > 0 %}
+        <ul>
+            {% for serie in series %}
+
+                <li><a href="{{ path('series_detail', {'id': serie.id}) }}">{{ serie.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>pas de séries</p>
+    {% endif %}
+{% endblock %}
