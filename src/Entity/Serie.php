@@ -30,7 +30,7 @@ class Serie
     private ?float $popularity = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $gens = null;
+    private ?string $genres = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $firstAirDate = null;
@@ -120,12 +120,12 @@ class Serie
 
     public function getGenres(): ?string
     {
-        return $this->gens;
+        return $this->genres;
     }
 
-    public function setGenres(string $gens): self
+    public function setGenres(string $genres): self
     {
-        $this->gens = $gens;
+        $this->genres = $genres;
 
         return $this;
     }

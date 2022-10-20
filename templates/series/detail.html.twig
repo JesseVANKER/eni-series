@@ -5,5 +5,16 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Details de la série n°{{ id }}</h1>
+    <h1>{{ serie.name }}</h1>
+
+<section class="series-list">
+    <img src="{{ asset('uploads/posters/series/' ~  serie.poster ) }}" alt="{{ serie.name }}">
+    <div>
+        <h1>{{ serie.name }}</h1>
+        <p>Popularity:      {{ serie.popularity }}</p>
+        <p>Vote: {{ serie.vote }}</p>
+        <p>{{ serie.overview }}</p>
+    </div>
+
+</section>
 {% endblock %}

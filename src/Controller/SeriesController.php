@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Serie;
+use App\Repository\SerieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,29 +12,36 @@ use Symfony\Component\Routing\Annotation\Route;
 class SeriesController extends AbstractController
 {
     #[Route('/', name: 'series_list')]
-    public function list(): Response
+    public function list(SerieRepository $serieRepository): Response
     {
-        $series = [
-            [
-                'id' => 1,
-                'title' => 'Game of throne'
-            ],
-            [
-                'id' => 2,
-                'title' => 'Les Anneaux de pouvoirs'
-            ],
-        ];
+        // recuperer les séries de la base de données
+        $series = $serieRepository->findAll();
+
         return $this->render('series/index.html.twig', [
             'series'=>$series
         ]);
     }
+/*
+    #[Route('/{id}', name: 'series_detail', requirements: ['id' => '\d+'])]
+    public function detail(int $id, SerieRepository $serieRepository): Response
+    {
+
+        $serie = $serieRepository->find($id);
+
+        return $this->render('series/detail.html.twig',[
+            'id'=>$id,
+            'serie'=>$serie
+        ]);
+    }
+*/
+    // MEME CHOSE EN RACCOURCI
 
     #[Route('/{id}', name: 'series_detail', requirements: ['id' => '\d+'])]
-    public function detail(int $id): Response
+    public function detail(Serie $serie): Response
     {
-        // TODO: Récupérer la série à afficher en base de données
+
         return $this->render('series/detail.html.twig',[
-            'id'=>$id
+            'serie'=>$serie
         ]);
     }
 
