@@ -15,6 +15,7 @@
         <article>
             <img src="{{ asset('uploads/posters/series/' ~  serie.poster ) }}" alt="{{ serie.name }}">
             <a href="{{ path('series_detail', {'id': serie.id}) }}">{{ serie.name }}</a>
+            {{ serie.firstAirDate|date('d/m/Y') }}
         </article>
     {% endfor %}
 

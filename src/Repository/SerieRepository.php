@@ -39,6 +39,42 @@ class SerieRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllByYear(int $year): array
+    {
+        /*
+        //DQL
+        $entityManager = $this->getEntityManager();
+        $dql = "
+            SELECT s
+            FROM App\Entity\Serie s
+            WHERE s.firstAirDate > '2019-01-01'
+            AND s.firstAirDate < '2020-01-01'
+        ";
+        $query = $entityManager->createQuery($dql);
+        return $query->getResult();
+
+       */
+
+        $qd=$this->createQueryBuilder('s');
+
+        $qd->andWhere("s.firstAirDate > '2019-01-01'")
+            ->andWhere("s.firstAirDate < '2020-01-01'");
+
+        return $qd->getQuery()->getResult();
+    }
+
+    public function findAllBetweenDates(\DateTime $start, \DateTime $end): array
+    {
+        $qd = $this->createQueryBuilder('s');
+        $qd->andWhere("s.firstAirDate >= :start")
+            ->andWhere("s.firstAirDate <= :end")
+            ->setParameter('start', $start)
+            ->setParameter('end', $end);
+
+        return $qd->getQuery()->getResult();
+
+    }
+
 //    /**
 //     * @return Serie[] Returns an array of Serie objects
 //     */

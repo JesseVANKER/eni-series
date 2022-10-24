@@ -1,5 +1,9 @@
 {% extends 'layout.html.twig' %}
 
 {% block body %}
-    <h1>Je suis dans le new</h1>
+    <h1>Création d'une série</h1>
+    {{ form_start(serieForm) }}
+    {{ form_widget(serieForm) }}
+        <button>Ajouter</button>
+    {{ form_end(serieForm) }}
 {% endblock %}
