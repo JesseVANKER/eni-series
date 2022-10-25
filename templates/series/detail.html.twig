@@ -14,6 +14,13 @@
         <p>Popularity:      {{ serie.popularity }}</p>
         <p>Vote: {{ serie.vote }}</p>
         <p>{{ serie.overview }}</p>
+
+        <h2>Liste des saisons :</h2>
+        {% for season in serie.seasons %}
+            <article>
+                <h4>Saison n°{{ season.number }}</h4>
+            </article>
+        {% endfor %}
     </div>
 
 </section>

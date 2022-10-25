@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Finder\Finder;
 
-class SerieFixtures extends Fixture implements DependentFixtureInterface
+class SeasonFixtures extends Fixture implements DependentFixtureInterface
 {
     private EntityManagerInterface $entityManager;
 

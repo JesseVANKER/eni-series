@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SerieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -15,12 +17,12 @@ class Serie
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Assert\NotBlank(message: "Ce champ ne peut être vide")]
+    #[Assert\NotBlank(message: 'Le nom ne peut pas être vide')]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Assert\NotBlank]
-    #[Assert\Length(min: 10, minMessage: "Minimum 10 charactères")]
+    #[Assert\NotBlank(message: 'Le résumé ne peut pas être vide')]
+    #[Assert\Length(min: 10, minMessage: 'Le résumé doit faire plus de 10 caractères')]
     #[ORM\Column(type: Types::TEXT)]
     private ?string $overview = null;
 
@@ -48,7 +50,6 @@ class Serie
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $firstAirDate = null;
 
-    #[Assert\LessThanOrEqual('today')]
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $lastAirDate = null;
 
@@ -61,11 +62,21 @@ class Serie
     #[ORM\Column]
     private ?int $tmdbId = null;
 
+    #[Assert\LessThanOrEqual('today')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateCreated = null;
 
+    #[Assert\LessThanOrEqual('today')]
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateModified = null;
+
+    #[ORM\OneToMany(mappedBy: 'serie', targetEntity: Season::class, orphanRemoval: true)]
+    private Collection $seasons;
+
+    public function __construct()
+    {
+        $this->seasons = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -224,6 +235,35 @@ class Serie
     public function setDateModified(?\DateTimeInterface $dateModified): self
     {
         $this->dateModified = $dateModified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Season>
+     */
+    public function getSeasons(): Collection
+    {
+        return $this->seasons;
+    }
+
+    public function addSeason(Season $season): self
+    {
+        if (!$this->getSeasons()->contains($season)) {
+            $this->getSeasons()->add($season);
+            $season->setSerie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSeason(Season $season): self
+    {
+        if ($this->getSeasons()->removeElement($season)) {
+            if ($season->getSerie() === $this) {
+                $season->setSerie(null);
+            }
+        }
 
         return $this;
     }
