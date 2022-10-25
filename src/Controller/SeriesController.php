@@ -44,11 +44,17 @@ class SeriesController extends AbstractController
     // MEME CHOSE EN RACCOURCI
 
     #[Route('/{id}', name: 'series_detail', requirements: ['id' => '\d+'])]
-    public function detail(Serie $serie): Response
+    public function detail(SerieRepository $serieRepository, int $id): Response
     {
+        // Récupérer la série à afficher en base de données
+        $serie = $serieRepository->find($id);
 
-        return $this->render('series/detail.html.twig',[
-            'serie'=>$serie
+        if ($serie === null) {
+            throw $this->createNotFoundException('Page not found');
+        }
+
+        return $this->render('series/detail.html.twig', [
+            'serie' => $serie
         ]);
     }
 
