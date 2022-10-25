@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Season;
 use App\Entity\Serie;
 use App\Repository\SerieRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -38,6 +39,14 @@ class TestController extends AbstractController
         $you->setPoster('you.jpg');
         $you->setTmdbId(78191);
         $you->setDateCreated(new \DateTime());
+
+        $season1 = new Season();
+        $season1->setNumber(1);
+        $season1->setPoster('you1.jpg');
+        $season1->setFirstAirDate(new \DateTime());
+        $season1->setTmdbId(123);
+        $season1->setDateCreated(new \DateTime());
+        $season1->setSerie($you);//ASSOCIE LA SAISON A LA SERIE
 
         $entityManager->persist($you);
         $entityManager->flush();

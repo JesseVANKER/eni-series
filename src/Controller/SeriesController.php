@@ -20,10 +20,10 @@ class SeriesController extends AbstractController
     {
         // recuperer les séries de la base de données trié par date de sortie
 
-        $series = $serieRepository->findBy([], ['firstAirDate'=>'DESC', 'name'=>'ASC']);
+        //$series = $serieRepository->findBy([], ['firstAirDate'=>'DESC', 'name'=>'ASC']);
         //$series = $serieRepository->findAllByYear(2020);
         //$series = $serieRepository->findAllBetweenDates(new \DateTime('2019-01-01'), new \DateTime('2020-01-01'));
-
+        $series = $serieRepository->findAllWithSeasons();
         return $this->render('series/index.html.twig', [
             'series'=>$series
         ]);
