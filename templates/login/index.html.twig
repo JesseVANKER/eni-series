@@ -16,7 +16,11 @@
         <input type="hidden" name="_target_path" value="/account"/> #}
 
         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
+        <br>
         <button type="submit">login</button>
+        <br>
+        <a href="{{ path('app_register') }}">Créer un compte</a>
+
+
     </form>
 {% endblock %}

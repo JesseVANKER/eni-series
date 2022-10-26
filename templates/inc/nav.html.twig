@@ -9,6 +9,15 @@
         <li>
             <a href="{{path('series_new') }}">Ajout</a>
         </li>
+        <li>
+            {% if app.user %}
+                <a href="{{path('app_logout') }}">Deconnexion</a>
+            {% else %}
+                <a href="{{path('app_login') }}">Connexion</a>
+            {% endif %}
+
+
+        </li>
 
     </ul>
 </nav>
