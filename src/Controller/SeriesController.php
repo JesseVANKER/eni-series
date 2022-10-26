@@ -7,6 +7,7 @@ use App\Form\SerieType;
 use App\Repository\SerieRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,6 +60,7 @@ class SeriesController extends AbstractController
     }
 
     #[Route('/new', name: 'series_new')]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $serie = new Serie();
@@ -71,6 +73,10 @@ class SeriesController extends AbstractController
 
         //CHECK IF USER IS SENDING FORM
         if($serieForm->isSubmitted() && $serieForm->isValid()){
+
+            /* REFUSER SUBMIT SI NON ADMIN
+            $this->denyAccessUnlessGranted('ROLE_ADMIN');
+             */
             $em->persist($serie);
             $em->flush();
 
