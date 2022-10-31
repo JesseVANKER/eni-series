@@ -32,7 +32,10 @@ class SerieType extends AbstractType
             ->add('lastAirDate', DateType::class, [
                 'widget' => 'single_text'
             ])
-            ->add('backdrop', FileType::class)
+            ->add('backdrop', FileType::class, [
+                'mapped'=>false,
+                'required'=>false
+            ])
             ->add('poster', FileType::class)
             ->add('tmdbId')
         ;

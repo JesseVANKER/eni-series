@@ -5,10 +5,12 @@ namespace App\Controller;
 use App\Entity\Serie;
 use App\Form\SerieType;
 use App\Repository\SerieRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -61,7 +63,7 @@ class SeriesController extends AbstractController
 
     #[Route('/new', name: 'series_new')]
     #[IsGranted('ROLE_ADMIN')]
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request, EntityManagerInterface $em, FileUploader $fileUploader): Response
     {
         $serie = new Serie();
         $serie->setDateCreated(new \DateTime());
@@ -73,6 +75,22 @@ class SeriesController extends AbstractController
 
         //CHECK IF USER IS SENDING FORM
         if($serieForm->isSubmitted() && $serieForm->isValid()){
+
+
+            // Uploader les images
+            /** @var UploadedFile $backdropImage */
+            $backdropImage = $serieForm->get('backdrop')->getData();
+            if($backdropImage){
+                $backdrop = $fileUploader->upload($backdropImage, '/backdrops');
+                $serie->setBackdrop($backdrop);
+            }
+            /** @var UploadedFile $posterImage */
+            $posterImage = $serieForm->get('poster')->getData();
+            if($posterImage){
+                $poster = $fileUploader->upload($posterImage, '/posters/series');
+                $serie->setPoster($poster);
+            }
+
 
             /* REFUSER SUBMIT SI NON ADMIN
             $this->denyAccessUnlessGranted('ROLE_ADMIN');
